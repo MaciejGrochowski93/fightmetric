@@ -186,13 +186,13 @@ public class ComparingServiceImpl implements ComparingService {
 
             BigDecimal reachDiff = fighter1.getReach().subtract(fighter2.getReach());
             String rDiffStr = reachDiff.abs().toString();
-            if (reachDiff.compareTo(BigDecimal.valueOf(15)) > 0) {
+            if (reachDiff.compareTo(BigDecimal.valueOf(12)) > 0) {
                 advantages1.add(new Advantage(REACH, SIGNIFICANT, rDiffStr));
-            } else if (reachDiff.compareTo(BigDecimal.valueOf(7)) > 0) {
+            } else if (reachDiff.compareTo(BigDecimal.valueOf(6)) > 0) {
                 advantages1.add(new Advantage(REACH, SLIGHT, rDiffStr));
-            } else if (reachDiff.compareTo(BigDecimal.valueOf(-15)) < 0) {
+            } else if (reachDiff.compareTo(BigDecimal.valueOf(-12)) < 0) {
                 advantages2.add(new Advantage(REACH, SIGNIFICANT, rDiffStr));
-            } else if (reachDiff.compareTo(BigDecimal.valueOf(-7)) < 0) {
+            } else if (reachDiff.compareTo(BigDecimal.valueOf(-6)) < 0) {
                 advantages2.add(new Advantage(REACH, SLIGHT, rDiffStr));
             }
 
@@ -208,18 +208,6 @@ public class ComparingServiceImpl implements ComparingService {
                 advantages2.add(new Advantage(STRIKES_LANDED_PER_MIN, SLIGHT, sLandedDiffStr));
             }
 
-            BigDecimal strikesAbsDiff = fighter1.getStrikesAbsorbed().subtract(fighter2.getStrikesAbsorbed());
-            String sAbsDiffStr = strikesAbsDiff.abs().toString();
-            if (strikesAbsDiff.compareTo(BigDecimal.valueOf(2)) > 0) {
-                advantages2.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SIGNIFICANT, sAbsDiffStr));
-            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(1)) > 0) {
-                advantages2.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SLIGHT, sAbsDiffStr));
-            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(-2)) < 0) {
-                advantages1.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SIGNIFICANT, sAbsDiffStr));
-            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(-1)) < 0) {
-                advantages1.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SLIGHT, sAbsDiffStr));
-            }
-
             BigDecimal strikingAccDiff = fighter1.getStrikingAccuracy().subtract(fighter2.getStrikingAccuracy());
             String sAccDiffStr = getPercentageDifference(strikingAccDiff);
             if (strikingAccDiff.compareTo(BigDecimal.valueOf(15)) > 0) {
@@ -230,6 +218,18 @@ public class ComparingServiceImpl implements ComparingService {
                 advantages2.add(new Advantage(STRIKING_ACCURACY, SIGNIFICANT, sAccDiffStr));
             } else if (strikingAccDiff.compareTo(BigDecimal.valueOf(-7.5)) < 0) {
                 advantages2.add(new Advantage(STRIKING_ACCURACY, SLIGHT, sAccDiffStr));
+            }
+
+            BigDecimal strikesAbsDiff = fighter1.getStrikesAbsorbed().subtract(fighter2.getStrikesAbsorbed());
+            String sAbsDiffStr = strikesAbsDiff.abs().toString();
+            if (strikesAbsDiff.compareTo(BigDecimal.valueOf(2)) > 0) {
+                advantages2.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SIGNIFICANT, sAbsDiffStr));
+            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(1)) > 0) {
+                advantages2.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SLIGHT, sAbsDiffStr));
+            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(-2)) < 0) {
+                advantages1.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SIGNIFICANT, sAbsDiffStr));
+            } else if (strikesAbsDiff.compareTo(BigDecimal.valueOf(-1)) < 0) {
+                advantages1.add(new Advantage(STRIKES_ABSORBED_PER_MIN, SLIGHT, sAbsDiffStr));
             }
 
             BigDecimal strikesDefenceDiff = fighter1.getStrikesDefence().subtract(fighter2.getStrikesDefence());
@@ -309,8 +309,7 @@ public class ComparingServiceImpl implements ComparingService {
     }
 
     private String getPercentageDifference(BigDecimal difference) {
-        String sTdDefDiff = difference.abs().toString();
-        return sTdDefDiff.substring(0, sTdDefDiff.indexOf(".")) + "%";
+        return difference.abs() + "%";
     }
 
     public Integer calculateAgeDifference(FighterDTO fighter1, FighterDTO fighter2) {
