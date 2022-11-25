@@ -30,5 +30,6 @@ public class FightsProvider {
                 .filter(dto -> dto.getPeriods().getNumber().getMoneyLine() != null)
                 .forEach(dto -> eventRepository.save(eventMapper.dtoToEventDB(dto))
                 );
+        log.info("Pinnacle data has been fetched successfully.");
     }
 }
