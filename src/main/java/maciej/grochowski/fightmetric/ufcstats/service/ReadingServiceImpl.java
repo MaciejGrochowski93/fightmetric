@@ -58,8 +58,7 @@ public class ReadingServiceImpl implements ReadingService {
     private String classOfLinks = "b-link b-link_style_black";
 
     @PostConstruct
-    @Override
-    public void initData() {
+    private void initData() {
         try {
             fightsProvider.fetchMarketsFromPinnacle();
         } catch (FeignException.TooManyRequests | BeanCreationException e) {
@@ -128,8 +127,7 @@ public class ReadingServiceImpl implements ReadingService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<FighterDTO> getFightersListFromFightURL(String fightURL) throws IOException {
+    private List<FighterDTO> getFightersListFromFightURL(String fightURL) throws IOException {
         FighterDTO fighter1 = new FighterDTO();
         FighterDTO fighter2 = new FighterDTO();
 
@@ -215,13 +213,7 @@ public class ReadingServiceImpl implements ReadingService {
         return List.of(fighter1, fighter2);
     }
 
-    public LocalDate getDateFromString(String dateString) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("us", "us"));
-        return simpleDateFormat.parse(dateString.replace(",", "")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-
-    @Override
-    public String getDataFromParagraph(String line) {
+    private String getDataFromParagraph(String line) {
         try {
             return line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
         } catch (IndexOutOfBoundsException e) {
@@ -229,8 +221,7 @@ public class ReadingServiceImpl implements ReadingService {
         }
     }
 
-    @Override
-    public BigDecimal convertToCm(String measure, Boolean isReach) {
+    private BigDecimal convertToCm(String measure, Boolean isReach) {
         try {
             BigDecimal feet = isReach ? BigDecimal.ZERO : BigDecimal.valueOf(Double.valueOf(measure.substring(0, measure.indexOf("'"))));
             BigDecimal inches = BigDecimal.valueOf(Double.valueOf(measure.substring(measure.indexOf(" ") + 1, measure.length() - 1)));
@@ -240,8 +231,12 @@ public class ReadingServiceImpl implements ReadingService {
         }
     }
 
-    @Override
-    public BigDecimal getBigDecimalFromAttributesIndex(int attributeIndex) {
+    private LocalDate getDateFromString(String dateString) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("us", "us"));
+        return simpleDateFormat.parse(dateString.replace(",", "")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    private BigDecimal getBigDecimalFromAttributesIndex(int attributeIndex) {
         String attribute = attributes.get(attributeIndex);
         String value;
 
@@ -255,8 +250,7 @@ public class ReadingServiceImpl implements ReadingService {
         return BigDecimal.valueOf(Double.valueOf(value)).setScale(2, RoundingMode.UP);
     }
 
-    @Override
-    public BufferedReader getReaderFromURL(String link) throws IOException {
+    private BufferedReader getReaderFromURL(String link) throws IOException {
         URL url = new URL(link);
         InputStream input = url.openStream();
         return new BufferedReader(new InputStreamReader(input));
