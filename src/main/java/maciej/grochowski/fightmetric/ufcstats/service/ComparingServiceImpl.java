@@ -139,7 +139,7 @@ public class ComparingServiceImpl implements ComparingService {
             }
 
             Integer ageDifference = calculateAgeDifference(fighter1, fighter2);
-            String sAgeDiff = String.valueOf(Math.abs(ageDifference));
+            String sAgeDiff = String.valueOf(ageDifference);
             if (ageDifference > 8) {
                 advantages2.add(new Advantage(AGE, SIGNIFICANT, sAgeDiff));
             } else if (ageDifference > 4) {
@@ -281,7 +281,7 @@ public class ComparingServiceImpl implements ComparingService {
             }
 
             Integer ageDifference = calculateAgeDifference(fighter1, fighter2);
-            String sAgeDiff = String.valueOf(Math.abs(ageDifference));
+            String sAgeDiff = String.valueOf(ageDifference);
             if (ageDifference > 8) {
                 advantages2.add(new Advantage(AGE, SIGNIFICANT, sAgeDiff));
             } else if (ageDifference > 4) {
@@ -316,6 +316,6 @@ public class ComparingServiceImpl implements ComparingService {
         LocalDate date1 = fighter1.getDob();
         LocalDate date2 = fighter2.getDob();
 
-        return Period.between(date1, date2).getYears();
+        return Math.abs(Period.between(date1, date2).getYears());
     }
 }

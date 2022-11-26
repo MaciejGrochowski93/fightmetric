@@ -38,7 +38,7 @@ class ComparingServiceImplTest {
         LocalDate date1 = LocalDate.of(2000, 5, 25);
         LocalDate date2 = LocalDate.of(1998, 4, 20);
         LocalDate date3 = LocalDate.of(1994, 3, 15);
-        LocalDate date4 = LocalDate.of(1990, 2, 10);
+        LocalDate date4 = LocalDate.of(1990, 4, 10);
 
         bestFighter = new FighterDTO("Ngannou", valueOf(198), valueOf(200), valueOf(5.5), valueOf(60),
                 valueOf(2.2), valueOf(70), valueOf(2.5), valueOf(80), valueOf(60), date1);
@@ -104,5 +104,18 @@ class ComparingServiceImplTest {
 
     private static Stream<FighterDTO> fightersToCompareWithWeak() {
         return Stream.of(mediumFighter, goodFighter, bestFighter);
+    }
+
+    @Test
+    void calculateAgeDifference_should_return_full_years_difference() {
+        // given + when
+        Integer ageDifference25Months = comparingService.calculateAgeDifference(bestFighter, goodFighter);
+        Integer ageDifference47Months = comparingService.calculateAgeDifference(mediumFighter, weakFighter);
+
+        // then
+        assertAll(
+                () -> assertEquals(ageDifference25Months, 2),
+                () -> assertEquals(ageDifference47Months, 3)
+        );
     }
 }
