@@ -23,17 +23,10 @@ public class Controller {
 
     private final EventService eventService;
     private final ReadingService readingService;
-    private final FightsProvider fightsProvider;
-    private final FinalDTOService finalDTOService;
-    private List<List<FighterDTO>> fightersList;
-    private List<FinalDTO> finalDTOList;
-    private final static Logger log = LoggerFactory.getLogger(Controller.class);
 
-    public Controller(EventService eventService, ReadingService readingService, FightsProvider fightsProvider, FinalDTOService finalDTOService) {
+    public Controller(EventService eventService, ReadingService readingService) {
         this.eventService = eventService;
         this.readingService = readingService;
-        this.fightsProvider = fightsProvider;
-        this.finalDTOService = finalDTOService;
     }
 
     @GetMapping("/odds")
@@ -49,20 +42,5 @@ public class Controller {
     @GetMapping("/fights")
     private List<List<FighterDTO>> getAllFights() {
         return readingService.getFightersList();
-    }
-
-    @GetMapping("/niom")
-    public void niom() {
-        try {
-            fightsProvider.fetchMarketsFromPinnacle();
-        } catch (TooManyRequestsException e) {
-            log.error(e.getMessage(), e);
-        }
-        System.out.println("bbbb");
-        finalDTOService.loadEvents();
-        fightersList = readingService.getAllFightersFromUFCStats();
-        finalDTOList = fightersList.stream()
-                .map(finalDTOService::getFinalDTO)
-                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,5 +55,17 @@ class ReadingServiceImplTest {
 
         // then
         assertEquals(calculatedReach, actualHeight);
+    }
+
+    @Test
+    void getDateFromString_converts_MMMMM_dd_yyyy_into_local_date() throws ParseException {
+        // given
+        String dateString = "Feb 11, 1983";
+
+        // when
+        LocalDate dateFromString = readingService.getDateFromString(dateString);
+
+        // then
+        assertEquals(dateFromString, LocalDate.of(1983, 2, 11));
     }
 }

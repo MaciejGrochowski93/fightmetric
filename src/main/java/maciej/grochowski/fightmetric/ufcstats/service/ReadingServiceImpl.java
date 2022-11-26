@@ -22,6 +22,7 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,12 +175,10 @@ public class ReadingServiceImpl implements ReadingService {
         fighter1.setReach(convertToCm(fighter1Reach, true));
         fighter2.setReach(convertToCm(fighter2Reach, true));
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("us", "us"));
-
         int dobIndex = attributes.indexOf(AGE.getValue());
         try {
-            fighter1.setDob(simpleDateFormat.parse(attributes.get(dobIndex + 1).replace(",", "")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            fighter2.setDob(simpleDateFormat.parse(attributes.get(dobIndex + 2).replace(",", "")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            fighter1.setDob(getDateFromString(attributes.get(dobIndex + 1)));
+            fighter2.setDob(getDateFromString(attributes.get(dobIndex + 2)));
         } catch (ParseException e) {
             log.error(e.getMessage(), e);
         }
@@ -214,6 +213,11 @@ public class ReadingServiceImpl implements ReadingService {
         fighter2.setTakedownsDefence(getBigDecimalFromAttributesIndex(tddIndex + 2));
 
         return List.of(fighter1, fighter2);
+    }
+
+    public LocalDate getDateFromString(String dateString) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("us", "us"));
+        return simpleDateFormat.parse(dateString.replace(",", "")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     @Override
