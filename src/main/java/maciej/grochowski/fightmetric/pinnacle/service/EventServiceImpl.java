@@ -18,10 +18,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDB> getAllEvents() {
-        List<EventDB> events = eventRepository.findAll();
-        if (events.isEmpty()) {
-            throw new TooManyRequestsException();
-        }
-        return events;
+        return eventRepository.findAll();
     }
 }

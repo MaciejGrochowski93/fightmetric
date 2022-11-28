@@ -1,6 +1,7 @@
 package maciej.grochowski.fightmetric.ufcstats.service;
 
 import maciej.grochowski.fightmetric.pinnacle.entity.EventDB;
+import maciej.grochowski.fightmetric.pinnacle.exception.TooManyRequestsException;
 import maciej.grochowski.fightmetric.pinnacle.service.EventService;
 import maciej.grochowski.fightmetric.ufcstats.dto.Advantage;
 import maciej.grochowski.fightmetric.ufcstats.dto.FighterDTO;
@@ -113,4 +114,11 @@ public class FinalDTOServiceImpl implements FinalDTOService{
                 });
     }
 
+    @Override
+    public List<EventDB> getEventsList() {
+        if (eventsList.isEmpty()) {
+            throw new TooManyRequestsException();
+        }
+        return eventsList;
+    }
 }

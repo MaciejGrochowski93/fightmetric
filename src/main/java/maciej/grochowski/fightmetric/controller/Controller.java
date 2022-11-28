@@ -21,17 +21,17 @@ import java.util.stream.Collectors;
 @RequestMapping
 public class Controller {
 
-    private final EventService eventService;
+    private final FinalDTOService finalDTOService;
     private final ReadingService readingService;
 
-    public Controller(EventService eventService, ReadingService readingService) {
-        this.eventService = eventService;
+    public Controller(FinalDTOService finalDTOService, ReadingService readingService) {
+        this.finalDTOService = finalDTOService;
         this.readingService = readingService;
     }
 
     @GetMapping("/odds")
     private List<EventDB> getAllEvents() {
-        return eventService.getAllEvents();
+        return finalDTOService.getEventsList();
     }
 
     @GetMapping("/finals")
