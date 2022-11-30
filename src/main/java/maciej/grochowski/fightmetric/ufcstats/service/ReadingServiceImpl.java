@@ -59,11 +59,7 @@ public class ReadingServiceImpl implements ReadingService {
 
     @PostConstruct
     private void initData() {
-        try {
-            fightsProvider.fetchMarketsFromPinnacle();
-        } catch (FeignException.TooManyRequests | BeanCreationException e) {
-            log.error(TooManyRequestsException.errorMessage);
-        }
+        fightsProvider.fetchMarketsFromPinnacle();
 
         finalDTOService.loadEvents();
         fightersList = getAllFightersFromUFCStats();
