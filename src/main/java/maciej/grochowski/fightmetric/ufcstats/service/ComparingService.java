@@ -1,16 +1,8 @@
 package maciej.grochowski.fightmetric.ufcstats.service;
 
-import maciej.grochowski.fightmetric.ufcstats.dto.Advantage;
-import maciej.grochowski.fightmetric.ufcstats.enums.ESize;
-import maciej.grochowski.fightmetric.ufcstats.dto.FighterDTO;
-
-import java.util.List;
+import maciej.grochowski.fightmetric.ufcstats.dto.FighterDetailsResponse;
 
 public interface ComparingService {
 
-    List<Advantage> getAdvantagesFromFighter(FighterDTO fighter, ESize eSize);
-
-    void setFightersAdvantages(FighterDTO fighter1, FighterDTO fighter2);
-
-    List<Advantage> getFightersAdvantages(FighterDTO fighter1, FighterDTO fighter2);
+    void setFightersAdvantages(FighterDetailsResponse fighter1, FighterDetailsResponse fighter2);
 }

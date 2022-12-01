@@ -1,7 +1,6 @@
 package maciej.grochowski.fightmetric.pinnacle.service;
 
 import maciej.grochowski.fightmetric.pinnacle.entity.EventDB;
-import maciej.grochowski.fightmetric.pinnacle.exception.TooManyRequestsException;
 import maciej.grochowski.fightmetric.pinnacle.repository.EventRepository;
 import org.springframework.stereotype.Service;
 

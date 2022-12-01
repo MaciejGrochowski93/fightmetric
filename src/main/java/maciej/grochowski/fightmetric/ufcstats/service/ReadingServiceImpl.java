@@ -1,18 +1,14 @@
 package maciej.grochowski.fightmetric.ufcstats.service;
 
-import feign.FeignException;
 import maciej.grochowski.fightmetric.pinnacle.client.FightsProvider;
-import maciej.grochowski.fightmetric.pinnacle.exception.TooManyRequestsException;
-import maciej.grochowski.fightmetric.ufcstats.dto.FighterDTO;
-import maciej.grochowski.fightmetric.ufcstats.dto.FinalDTO;
+import maciej.grochowski.fightmetric.ufcstats.dto.FightSummary;
+import maciej.grochowski.fightmetric.ufcstats.dto.FighterDetailsResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,8 +44,6 @@ public class ReadingServiceImpl implements ReadingService {
     private final String nameText = "fight-details__person-link";
     private final String attributesText = "b-fight-details__table-text";
     private List<String> attributes;
-    private List<List<FighterDTO>> fightersList;
-    private List<FinalDTO> finalDTOList;
     private final BigDecimal footLength = BigDecimal.valueOf(30.48);
     private final BigDecimal inchLength = BigDecimal.valueOf(2.54);
 
@@ -57,35 +51,10 @@ public class ReadingServiceImpl implements ReadingService {
     private String mainURL = "http://www.ufcstats.com/statistics/events/upcoming";
     private String classOfLinks = "b-link b-link_style_black";
 
-    @PostConstruct
-    private void initData() {
-        fightsProvider.fetchMarketsFromPinnacle();
-
-        finalDTOService.loadEvents();
-        fightersList = getAllFightersFromUFCStats();
-        finalDTOList = fightersList.stream()
-                .map(finalDTOService::getFinalDTO)
-                .collect(Collectors.toList());
-
-        log.info("Loading complete");
-    }
-
-
     @Override
-    public List<List<FighterDTO>> getFightersList() {
-        return fightersList;
-    }
-
-    @Override
-    public List<FinalDTO> getFinalDTOList() {
-        return finalDTOList;
-    }
-
-    @Override
-    public List<List<FighterDTO>> getAllFightersFromUFCStats() {
+    public List<FightSummary> getFightSummaries() {
         log.info("Attempting to fetch data from UFCstats - it might take up some time...");
-        List<List<FighterDTO>> list = new ArrayList<>();
-
+        List<FightSummary> collectionList = new ArrayList<>();
         try {
             List<String> eventLinkList = getLinksFromURL(mainURL);
             eventLinkList.forEach(
@@ -94,7 +63,7 @@ public class ReadingServiceImpl implements ReadingService {
                             List<String> fights = getLinksFromURL(eventURL);
                             fights.forEach(fightURL -> {
                                 try {
-                                    list.add(getFightersListFromFightURL(fightURL));
+                                    collectionList.add(new FightSummary(getFightersListFromFightURL(fightURL)));
                                 } catch (IOException e) {
                                     log.error(e.getMessage(), e);
                                 }
@@ -108,7 +77,7 @@ public class ReadingServiceImpl implements ReadingService {
             log.error(e.getMessage(), e);
         }
 
-        return list;
+        return collectionList;
     }
 
     private List<String> getLinksFromURL(String linkFrom) throws IOException {
@@ -123,9 +92,9 @@ public class ReadingServiceImpl implements ReadingService {
                 .collect(Collectors.toList());
     }
 
-    private List<FighterDTO> getFightersListFromFightURL(String fightURL) throws IOException {
-        FighterDTO fighter1 = new FighterDTO();
-        FighterDTO fighter2 = new FighterDTO();
+    private List<FighterDetailsResponse> getFightersListFromFightURL(String fightURL) throws IOException {
+        FighterDetailsResponse fighter1 = new FighterDetailsResponse();
+        FighterDetailsResponse fighter2 = new FighterDetailsResponse();
 
         BufferedReader reader = getReaderFromURL(fightURL);
         String line;

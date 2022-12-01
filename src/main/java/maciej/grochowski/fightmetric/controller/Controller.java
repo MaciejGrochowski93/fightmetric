@@ -1,10 +1,10 @@
 package maciej.grochowski.fightmetric.controller;
 
+import maciej.grochowski.fightmetric.init.DataLoader;
 import maciej.grochowski.fightmetric.pinnacle.entity.EventDB;
-import maciej.grochowski.fightmetric.ufcstats.dto.FighterDTO;
+import maciej.grochowski.fightmetric.ufcstats.dto.FightSummary;
 import maciej.grochowski.fightmetric.ufcstats.dto.FinalDTO;
 import maciej.grochowski.fightmetric.ufcstats.service.FinalDTOService;
-import maciej.grochowski.fightmetric.ufcstats.service.ReadingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,11 +16,11 @@ import java.util.List;
 public class Controller {
 
     private final FinalDTOService finalDTOService;
-    private final ReadingService readingService;
+    private final DataLoader dataLoader;
 
-    public Controller(FinalDTOService finalDTOService, ReadingService readingService) {
+    public Controller(FinalDTOService finalDTOService, DataLoader dataLoader) {
         this.finalDTOService = finalDTOService;
-        this.readingService = readingService;
+        this.dataLoader = dataLoader;
     }
 
     @GetMapping("/odds")
@@ -30,11 +30,11 @@ public class Controller {
 
     @GetMapping("/finals")
     private List<FinalDTO> getAllFinals() {
-        return readingService.getFinalDTOList();
+        return dataLoader.getFinalDTOList();
     }
 
     @GetMapping("/fights")
-    private List<List<FighterDTO>> getAllFights() {
-        return readingService.getFightersList();
+    private List<FightSummary> getFightersCollection() {
+        return dataLoader.getFightSummaryList();
     }
 }

@@ -20,6 +20,18 @@ public class Advantage {
         this.value = value;
     }
 
+    public ESize getESize() {
+        return ESize;
+    }
+
+    public EAttribute geteAttribute() {
+        return eAttribute;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return "Advantage{" +
@@ -40,17 +52,5 @@ public class Advantage {
     @Override
     public int hashCode() {
         return Objects.hash(eAttribute, ESize, value);
-    }
-
-    public ESize getESize() {
-        return ESize;
-    }
-
-    public EAttribute geteAttribute() {
-        return eAttribute;
-    }
-
-    public String getValue() {
-        return value;
     }
 }
