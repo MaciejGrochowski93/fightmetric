@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class FighterDTO {
+public class FighterDetailsResponse {
 
     private String name;
     private BigDecimal height;
@@ -20,12 +21,12 @@ public class FighterDTO {
     private LocalDate dob;
     private List<Advantage> advantages = new ArrayList<>();
 
-    public FighterDTO() {
+    public FighterDetailsResponse() {
     }
 
-    public FighterDTO(String name, BigDecimal height, BigDecimal reach, BigDecimal strikesLanded, BigDecimal strikingAccuracy,
-                      BigDecimal strikesAbsorbed, BigDecimal strikesDefence, BigDecimal takedownsAverage, BigDecimal takedownsAccuracy,
-                      BigDecimal takedownsDefence, LocalDate dob) {
+    public FighterDetailsResponse(String name, BigDecimal height, BigDecimal reach, BigDecimal strikesLanded, BigDecimal strikingAccuracy,
+                                  BigDecimal strikesAbsorbed, BigDecimal strikesDefence, BigDecimal takedownsAverage, BigDecimal takedownsAccuracy,
+                                  BigDecimal takedownsDefence, LocalDate dob) {
         this.name = name;
         this.height = height;
         this.reach = reach;
@@ -137,7 +138,7 @@ public class FighterDTO {
 
     @Override
     public String toString() {
-        return "FighterDTO{" +
+        return "FighterDetailsResponse{" +
                 "name='" + name + '\'' +
                 ", height=" + height +
                 ", reach=" + reach +
@@ -150,5 +151,18 @@ public class FighterDTO {
                 ", takedownsDefence=" + takedownsDefence +
                 ", dob=" + dob +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FighterDetailsResponse that = (FighterDetailsResponse) o;
+        return name.equals(that.name) && Objects.equals(height, that.height) && Objects.equals(reach, that.reach) && Objects.equals(strikesLanded, that.strikesLanded) && Objects.equals(strikingAccuracy, that.strikingAccuracy) && Objects.equals(strikesAbsorbed, that.strikesAbsorbed) && Objects.equals(strikesDefence, that.strikesDefence) && Objects.equals(takedownsAverage, that.takedownsAverage) && Objects.equals(takedownsAccuracy, that.takedownsAccuracy) && Objects.equals(takedownsDefence, that.takedownsDefence) && Objects.equals(dob, that.dob) && advantages.equals(that.advantages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, height, reach, strikesLanded, strikingAccuracy, strikesAbsorbed, strikesDefence, takedownsAverage, takedownsAccuracy, takedownsDefence, dob, advantages);
     }
 }
