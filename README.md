@@ -1,6 +1,6 @@
 ﻿# fightmetric
 
-This is a spring boot, restf application which combines two things - reading MMA odds from bookmaker's api
+This is a spring boot, rest application which combines two things - reading MMA odds from bookmaker's api
 (www.pinnacle.com), and scrapping data about incoming fights from the official UFC's site (www.ufcstats.com).
 
 Starting the application takes some time, as the initial method downloads all the required data. This solution allows
